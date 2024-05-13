@@ -23,8 +23,8 @@ public class RestfulWebServicesApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedMethods("*")
-						.allowedOrigins("https://stunning-pika-62385a.netlify.app/")
-						.allowedOrigins("http://localhost:3000");
+						.allowedOrigins("https://list-2do.netlify.app/");
+				//.allowedOrigins("http://localhost:3000");
 			}
 		};
 	}

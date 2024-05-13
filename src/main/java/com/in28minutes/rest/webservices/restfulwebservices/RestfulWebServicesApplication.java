@@ -16,16 +16,18 @@ public class RestfulWebServicesApplication {
 	//http://localhost:3000/ to 8080
 	//Cross Origin Requests
 	//Allow all requests only from http://localhost:3000/
-	
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedMethods("*")
-					.allowedOrigins("http://localhost:3000");
+						.allowedMethods("*")
+						.allowedOrigins("https://stunning-pika-62385a.netlify.app/")
+						.allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
+
 
 }

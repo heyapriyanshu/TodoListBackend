@@ -42,35 +42,28 @@ import com.nimbusds.jose.proc.SecurityContext;
 @EnableMethodSecurity
 public class JwtSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .csrf(AbstractHttpConfigurer::disable) // (1)
-                .sessionManagement(
-                        session -> 
-                            session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS)) // (2)
-                .authorizeRequests(
-                        auth -> 
-                            auth.mvcMatchers("/authenticate", "/actuator", "/actuator/*")
-                                .permitAll()
-                                .antMatchers(HttpMethod.OPTIONS,"/**")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()) // (3)
-                .oauth2ResourceServer(
-                        OAuth2ResourceServerConfigurer::jwt) // (4)
-                .exceptionHandling(
-                        (ex) -> 
-                            ex.authenticationEntryPoint(
-                                new BearerTokenAuthenticationEntryPoint())
-                              .accessDeniedHandler(
-                                new BearerTokenAccessDeniedHandler()))
-                .httpBasic(
-                        Customizer.withDefaults()) // (5)
-                .build();
-    }
-
+	  @Bean
+	    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+	        return httpSecurity
+	                .csrf(csrf -> csrf
+	                        .ignoringAntMatchers("/h2-console/**")
+	                        .disable()) // Disable CSRF for H2 console
+	                .headers(headers -> headers
+	                        .frameOptions().disable()) // Allow H2 console to be displayed in a frame
+	                .sessionManagement(session -> 
+	                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Set session management to stateless
+	                .authorizeRequests(auth -> 
+	                        auth.mvcMatchers("/authenticate", "/actuator", "/actuator/*").permitAll()
+	                                .antMatchers("/h2-console/**").permitAll() // Permit all requests to the H2 console
+	                                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+	                                .anyRequest().authenticated()) // Require authentication for all other requests
+	                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt) // Configure OAuth2 resource server
+	                .exceptionHandling(ex -> 
+	                        ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+	                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())) // Configure exception handling
+	                .httpBasic(Customizer.withDefaults()) // Enable HTTP Basic authentication
+	                .build();
+	    }
     @Bean
     public AuthenticationManager authenticationManager(
             UserDetailsService userDetailsService) {

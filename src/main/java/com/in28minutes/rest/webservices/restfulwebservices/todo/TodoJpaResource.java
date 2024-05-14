@@ -1,6 +1,10 @@
 package com.in28minutes.rest.webservices.restfulwebservices.todo;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +39,11 @@ public class TodoJpaResource {
 	public Todo retrieveTodo(@PathVariable String username,
 			@PathVariable int id) {
 		//return todoService.findById(id);
-		return todoRepository.findById(id).get();
+		var todos = todoRepository.findById(id);
+		if(todos.isPresent()) {
+			return todos.get();
+		}
+		return new Todo(true);
 	}
 
 	@DeleteMapping("/users/{username}/todos/{id}")

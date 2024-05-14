@@ -22,8 +22,11 @@ public class RestfulWebServicesApplication {
 		return new WebMvcConfigurer() {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
-					.allowedMethods("*")
-					.allowedOrigins("https://list-2do.netlify.app");
+						.allowedMethods("*")
+						.allowedOrigins("https://list-2do.netlify.app");
+//						.allowedOrigins("http://localhost:3000");
+
+					
 			}
 		};
 	}

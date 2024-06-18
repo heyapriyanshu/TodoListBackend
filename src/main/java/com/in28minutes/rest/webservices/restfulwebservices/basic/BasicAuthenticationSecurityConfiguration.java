@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-//@Configuration
+@Configuration
 public class BasicAuthenticationSecurityConfiguration {
 	
 	//Filter chain
@@ -27,7 +27,9 @@ public class BasicAuthenticationSecurityConfiguration {
 					.authorizeHttpRequests(
 						auth -> 
 							auth
-							.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+									.antMatchers("**").permitAll()
+									.antMatchers("/api/users/register").permitAll() // Allow registration endpoint
+									.antMatchers( "/api/users/login").permitAll() // Allow login endpoint
 							.anyRequest().authenticated()
 						)
 					.httpBasic(Customizer.withDefaults())

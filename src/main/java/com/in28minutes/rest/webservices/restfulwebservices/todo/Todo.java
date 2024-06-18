@@ -2,9 +2,8 @@ package com.in28minutes.rest.webservices.restfulwebservices.todo;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.in28minutes.rest.webservices.restfulwebservices.user.User;
+import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
 
@@ -36,6 +35,9 @@ public class Todo {
 	private String description;
 	private LocalDate targetDate;
 	private boolean done;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
 	public Integer getId() {
 		return id;

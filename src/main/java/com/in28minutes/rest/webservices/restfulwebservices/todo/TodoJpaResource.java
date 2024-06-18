@@ -31,7 +31,7 @@ public class TodoJpaResource {
 	
 	@GetMapping("/users/{username}/todos")
 	public List<Todo> retrieveTodos(@PathVariable String username) {
-		//return todoService.findByUsername(username);
+		//return todoService.findByEmail(username);
 		return todoRepository.findByUsername(username);
 	}
 

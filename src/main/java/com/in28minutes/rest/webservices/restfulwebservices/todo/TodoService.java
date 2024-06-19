@@ -2,13 +2,17 @@ package com.in28minutes.rest.webservices.restfulwebservices.todo;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
+import com.in28minutes.rest.webservices.restfulwebservices.todo.repository.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TodoService {
-	
+	@Autowired
+	private TodoRepository todoRepository;
 	private static List<Todo> todos = new ArrayList<>();
 	
 	private static int todosCount = 0;
@@ -39,5 +43,14 @@ public class TodoService {
 	public void updateTodo(Todo todo) {
 		deleteById(todo.getId());
 		todos.add(todo);
+	}
+	public Todo updateTodoStatus(Integer id, boolean isDone) {
+		Optional<Todo> optionalTodo = todoRepository.findById(id);
+		if (optionalTodo.isPresent()) {
+			Todo todo = optionalTodo.get();
+			todo.setDone(isDone);
+			return todoRepository.save(todo);
+		}
+		return null;
 	}
 }

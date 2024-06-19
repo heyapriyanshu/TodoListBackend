@@ -4,19 +4,17 @@ import com.in28minutes.rest.webservices.restfulwebservices.todo.Todo;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     private String email;
     private String firstName;
     private String lastName;
     private String password; // Store hashed password
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Todo todo;
 
-    // Constructors, getters, setters
 
     public User() {
     }
@@ -28,8 +26,8 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
 
@@ -58,7 +56,5 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+
 }

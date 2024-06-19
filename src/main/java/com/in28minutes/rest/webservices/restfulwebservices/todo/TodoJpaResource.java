@@ -1,10 +1,6 @@
 package com.in28minutes.rest.webservices.restfulwebservices.todo;
 
-import java.sql.Time;
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,11 +63,18 @@ public class TodoJpaResource {
 			 @RequestBody Todo todo) {
 		todo.setUsername(username);
 		todo.setId(null);
+
 		return todoRepository.save(todo);
-//		Todo createdTodo = todoService.addTodo(username, todo.getDescription(), 
-//				todo.getTargetDate(),todo.isDone() );
-		
-//		return createdTodo;
+
+	}
+
+	@PutMapping("/api/todos/{id}/status/{request}")
+	public ResponseEntity<Todo> updateTodoStatus(@PathVariable Integer id, @PathVariable Boolean request) {
+		Todo updatedTodo = todoService.updateTodoStatus(id, request);
+		if (updatedTodo == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(updatedTodo);
 	}
 
 }

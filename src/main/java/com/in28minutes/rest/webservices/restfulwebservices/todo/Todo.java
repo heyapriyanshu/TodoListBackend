@@ -19,7 +19,7 @@ public class Todo {
  	}
 	public Todo(Integer id, String username, String description, LocalDate targetDate, boolean done) {
 		super();
-		this.id = id;
+		this.todoId = id;
 		this.username = username;
 		this.description = description;
 		this.targetDate = targetDate;
@@ -28,23 +28,21 @@ public class Todo {
 
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private Integer todoId;
 
 	private String username;
 	
 	private String description;
 	private LocalDate targetDate;
 	private boolean done;
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
+
 
 	public Integer getId() {
-		return id;
+		return todoId;
 	}
 
 	public void setId(Integer id) {
-		this.id = id;
+		this.todoId = id;
 	}
 
 	public String getUsername() {
@@ -79,9 +77,11 @@ public class Todo {
 		this.done = done;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Todo [id=" + id + ", username=" + username + ", description=" + description + ", targetDate="
+		return "Todo [id=" + todoId + ", username=" + username + ", description=" + description + ", targetDate="
 				+ targetDate + ", done=" + done + "]";
 	}
 

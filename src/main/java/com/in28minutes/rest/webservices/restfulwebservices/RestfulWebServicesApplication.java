@@ -23,7 +23,7 @@ public class RestfulWebServicesApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
 						.allowedMethods("*")
-						.allowedOrigins("https://list-2do.netlify.app");
+						.allowedOrigins("https://list-todo.priyanshuranjan.live");
 //						.allowedOrigins("http://localhost:3000");
 
 					

@@ -1,31 +1,11 @@
-# Stage 1: Build the application
-FROM ubuntu:latest AS build
+FROM maven:3.9.2-eclipse-temurin-17-alpine as builder
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jdk \
-    maven
+COPY ./src src/
+COPY ./pom.xml pom.xml
 
-# Set the working directory
-WORKDIR /app
-
-# Copy the source code
-COPY . .
-
-# Build the application
 RUN mvn clean package -DskipTests
 
-# Stage 2: Run the application
-FROM openjdk:17-jdk-slim
-
-# Set the working directory
-WORKDIR /app
-
-# Expose the port the application runs on
+FROM eclipse-temurin:17-jre-alpine
+COPY --from=builder target/*.jar app.jar
 EXPOSE 8080
-
-# Copy the packaged jar file from the build stage
-COPY --from=target /target/TodoBackendExec.jar app.jar
-
-# Command to run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+CMD ["java","-jar","app.jar"]

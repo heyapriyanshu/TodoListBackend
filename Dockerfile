@@ -25,7 +25,7 @@ WORKDIR /app
 EXPOSE 8080
 
 # Copy the packaged jar file from the build stage
-COPY --from=build /app/target/TodoBackendExec.jar app.jar
+COPY --from=target /target/TodoBackendExec.jar app.jar
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
